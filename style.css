@@ -1,0 +1,15 @@
+body {
+  background: #111;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+canvas {
+  background: #111;
+  display: block;
+  border: 1px solid #333;
+  width: 800px; /* must match HTML width */
+  height: 600px; /* must match HTML height */
+}

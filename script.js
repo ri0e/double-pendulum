@@ -41,12 +41,14 @@ L2_el.addEventListener('change', ()=>{
     console.log(L2);
 });
 
+const dt = 0.02;
+
 let theta1 = Math.PI / -2;
 let theta2 = Math.PI / -2;
-let theta1_v = 0;
-let theta2_v = 0;
-let theta1_a = 0;
-let theta2_a = 0;
+let theta1_v = 0 * dt;
+let theta2_v = 0 * dt;
+let theta1_a = 0 * dt;
+let theta2_a = 0 * dt;
 // console.log(theta1, theta2);
 
 let x1, y1, x2, y2;
@@ -56,11 +58,11 @@ let trail = [];
 
 function update(){
     const num1 = -g * ( 2 * m1 + m2) * Math.sin(theta1) - m2 * g * Math.sin(theta1 - 2 * theta2) - 2 * Math.sin(theta1 - theta2) * m2 * (theta2_v ** 2 * L2 + theta1_v ** 2 * L1 * Math.cos(theta1 - theta2));
-    const den1 = L1 * (2 * m1 + m2 - m2 * Math.cos(2 * theta1 - 2 * 2 * theta2));
+    const den1 = L1 * (2 * m1 + m2 - m2 * Math.cos(2 * theta1 - 2 * theta2));
     theta1_a = num1 / den1;
 
     const num2 = 2 * Math.sin(theta1 - theta2) * (theta1_v ** 2 * L1 * (m1 + m2) + g * (m1 + m2) * Math.cos(theta1) + theta2_v ** 2 * L2 * m2 * Math.cos(theta1 - theta2));
-    const den2 = L2 * (2 * m1 + m2 - m2 * Math.cos(2 * theta1 - 2 * 2 * theta2));
+    const den2 = L2 * (2 * m1 + m2 - m2 * Math.cos(2 * theta1 - 2 * theta2));
     theta2_a = num2 / den2;
 
     theta1_v += theta1_a;
@@ -87,7 +89,7 @@ function draw() {
     ctx.translate(c.width / 2, 200);
 
     // Draw trail
-    ctx.strokeStyle = "rgba(255,255,255,0.5)";
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
     ctx.beginPath();
     for (let i = 0; i < trail.length - 1; i++) {
         ctx.moveTo(trail[i].x, trail[i].y);

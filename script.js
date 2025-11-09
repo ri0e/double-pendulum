@@ -2,8 +2,10 @@ let g_el, m1_el, m2_el, L1_el, L2_el;
 let g, m1, m2, L1, L2;
 let m1Color_el, m2Color_el, L1Color_el, L2Color_el;
 let m1Color, m2Color, L1Color, L2Color;
+let mouseInteraction, drag, push; // not used
+let draggingBob = null;
 
-const dt = 0.01;
+const dt = 0.02;
 
 let theta1 = Math.PI / 2;
 let theta2 = Math.PI / 2;
@@ -14,6 +16,7 @@ let theta2_a = 0 * dt;
 
 let x1, y1, x2, y2;
 let trail = [];
+let trail2 = [];
 
 function setup(){
     createCanvas(windowWidth - 40, windowHeight - 40);
@@ -109,11 +112,43 @@ function update(){
 
     trail.push({ x: x2, y: y2 });
     if (trail.length > 5000) trail.shift();
+    trail2.push({ x: x1, y: y1 });
+    if (trail2.length > 5000) trail2.shift();
+}
+
+function mousePressed(){
+    let d1 = dist(mouseX, mouseY, x1, y1);
+    let d2 = dist(mouseX, mouseY, x2, y2);
+    
+    if (d1 < m1) {
+        draggingBob = 1;
+    } else if (d2 < m2) {
+        draggingBob = 2;
+    }
+}
+
+function mouseDragged(){
+    if (draggingBob === 1) {
+        let dx = mouseX - width / 2;
+        let dy = mouseY - height / 4;
+        theta1 = Math.atan2(dx, dy);
+        theta1_v = 0.1;
+    } else if (draggingBob === 2) {
+        let dx = mouseX - x1;
+        let dy = mouseY - y1;
+        theta2 = Math.atan2(dx, dy);
+        theta2_v = 0.1;
+    }
+}
+
+function mouseReleased(){
+    draggingBob = null;
+    loop();
 }
 
 function draw(){
     background(0);
-    update();
+    if (!draggingBob) update();
 
     [g_el, m1_el, m2_el, L1_el, L2_el, m1Color_el, m2Color_el, L1Color_el, L2Color_el].forEach(el =>
         el.input(() =>{
@@ -151,6 +186,15 @@ function draw(){
     strokeWeight(1);
     beginShape();
     for (let pos of trail) {
+        vertex(pos.x, pos.y);
+    }
+    endShape();
+
+    noFill();
+    stroke(225);
+    strokeWeight(0);
+    beginShape();
+    for (let pos of trail2) {
         vertex(pos.x, pos.y);
     }
     endShape();

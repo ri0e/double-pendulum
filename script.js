@@ -205,7 +205,7 @@ function mousePush(){
 
     let dx2 = mouseX - x2;
     let dy2 = mouseY - y2;
-    let d2 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+    let d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
     if(d2 < pushRadius){
         let ux = dx2 / d2;

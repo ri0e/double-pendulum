@@ -203,8 +203,8 @@ function mousePush(){
         theta1_v += (push * (tx * L1 + ty * L1)) / L1;
     }
 
-    let dx2 = mouseX - x1;
-    let dy2 = mouseY - y1;
+    let dx2 = mouseX - x2;
+    let dy2 = mouseY - y2;
     let d2 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
 
     if(d2 < pushRadius){
